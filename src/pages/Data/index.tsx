@@ -77,7 +77,7 @@ const Data = () => {
 
         <div className={styles.component}>
           {departments.map((dept) => (
-            <Department department={dept} />
+            <Department department={dept} key={dept.department} />
           ))}
         </div>
       </div>

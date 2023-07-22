@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import styles from "./styles.module.scss";
+import Checkbox from "@mui/material/Checkbox";
 
 interface DepartmentProps {
   department: {
@@ -17,6 +18,22 @@ const Department: React.FC<DepartmentProps> = ({ department }) => {
   const [selectedSubDepartments, setSelectedSubDepartments] = useState<
     string[]
   >([]);
+
+  useEffect(() => {
+    let areAllSubDeptSelected = true;
+    department.sub_departments.forEach((subdept) => {
+      if (!selectedSubDepartments.includes(subdept)) {
+        areAllSubDeptSelected = false;
+        return;
+      }
+    });
+
+    if (areAllSubDeptSelected)
+      setSelectedDepartments((prevSelected) => [
+        ...prevSelected,
+        department.department,
+      ]);
+  }, [selectedSubDepartments]);
 
   const handleSelectDepartment = (
     department: string,
@@ -51,7 +68,7 @@ const Department: React.FC<DepartmentProps> = ({ department }) => {
     }
   };
 
-  const handleSelectSubDepartment = (subDept: string, department: string) => {
+  const handleSelectSubDepartment = (subDept: string, dept: string) => {
     if (selectedSubDepartments.includes(subDept)) {
       // If the sub-department is already selected and present in the selectedSubDeparment, then unselect it and remove it from selectedSubDeparment
       setSelectedSubDepartments((prevSelected) => {
@@ -59,7 +76,7 @@ const Department: React.FC<DepartmentProps> = ({ department }) => {
       });
 
       // Also unselect its parent department
-      setSelectedDepartments((depts) => depts.filter((d) => d !== department));
+      setSelectedDepartments((depts) => depts.filter((d) => d !== dept));
     } else {
       setSelectedSubDepartments((prevSelected) =>
         Array.from(new Set([...prevSelected, subDept]))
@@ -73,11 +90,8 @@ const Department: React.FC<DepartmentProps> = ({ department }) => {
         <span onClick={() => setSubDeptVisible(!areSubDeptVisible)}>
           {areSubDeptVisible ? <RemoveIcon /> : <AddIcon />}
         </span>
-        <input
-          type="checkbox"
-          checked={
-            selectedSubDepartments.length === department.sub_departments.length
-          }
+        <Checkbox
+          checked={selectedDepartments.includes(department.department)}
           onChange={() =>
             handleSelectDepartment(
               department.department,
@@ -94,9 +108,8 @@ const Department: React.FC<DepartmentProps> = ({ department }) => {
         <div className={styles.sub_departments}>
           <ul>
             {department.sub_departments.map((subDept) => (
-              <li>
-                <input
-                  type="checkbox"
+              <li key={subDept}>
+                <Checkbox
                   checked={selectedSubDepartments.includes(subDept)}
                   onChange={() =>
                     handleSelectSubDepartment(subDept, department.department)
