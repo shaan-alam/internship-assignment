@@ -1,0 +1,34 @@
+.form_section {
+  font-family: "Roboto", sans-serif;
+  background: #fff;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  width: 400px;
+  padding: 1.5rem;
+  border-radius: 7px;
+  border: 1px solid #eee;
+
+  h1 {
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+}
+
+.form_field {
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.error {
+  color: red;
+  font-size: small;
+}

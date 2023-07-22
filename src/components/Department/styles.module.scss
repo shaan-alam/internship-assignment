@@ -1,0 +1,22 @@
+.department {
+  font-family: "Roboto", sans-serif;
+
+  &_header {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+
+    p span {
+      font-size: small;
+      color: gray;
+    }
+  }
+}
+
+.sub_departments {
+  font-family: "Roboto", sans-serif;
+
+  ul {
+    list-style: none;
+  }
+}
